@@ -1,0 +1,5 @@
+-- Begin of log for 08-11-17 --
+[22:45] == EssentialMode started, version 4.4.2 ==
+[22:47] User (Kanersps) loaded
+[23:36] == EssentialMode started, version 4.4.2 ==
+[23:37] User (Kanersps) loaded

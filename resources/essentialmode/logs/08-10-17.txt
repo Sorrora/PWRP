@@ -1,0 +1,4 @@
+-- Begin of log for 08-10-17 --
+[14:43] == EssentialMode started, version 4.4.2 ==
+[14:47] User (Kanersps) loaded
+[14:48] User (Kanersps) saved and unloaded
