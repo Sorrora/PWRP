@@ -16,13 +16,13 @@ var backgrounds = [
 /* TEXTS DISPLAYED TOP RIGHT */
 texts = [
 	"Alpha-Test",
-	"www.PrestigeWorldwideRP.com",
+	"",
 	"discord.gg/K2F2eHG"
 ],
 
 /* TEXT DISPLAYED TOP LEFT */
-welcomeText = "Welcome to",
-serverName = "Prestige Worldwide",
+welcomeText = "",
+serverName = "",
 
 /* ID OF YOUTUBE VIDEO FOR BACKGROUND, IF THIS IS NOT NULL, THIS WILL REPLACE ACTUALS BACKGROUNDS AND DISPLAY YOUTUBE VIDEO AS BACKGROUND */
 youtubeID = "",

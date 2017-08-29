@@ -34,9 +34,9 @@ end)
 function SetVehicleMaxMods(vehicle)
 
 	local props = {
-		modEngine       = 2,
+		modEngine       = 3,
 		modBrakes       = 2,
-		modTransmission = 2,
+		modTransmission = 3,
 		modSuspension   = 3,
 		modTurbo        = true,
 	}
