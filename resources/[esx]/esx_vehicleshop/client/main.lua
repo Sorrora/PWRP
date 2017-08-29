@@ -184,6 +184,7 @@ function OpenShopMenu()
 
 										if Config.EnableOwnedVehicles then
 											TriggerServerEvent('esx_vehicleshop:setVehicleOwned', vehicleProps)
+											SetEntityAsMissionEntity(vehicle, true, true)
 										end
 
 									end)

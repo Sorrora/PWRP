@@ -218,6 +218,7 @@ AddEventHandler('esx_property:hasEnteredMarker', function(name, part, parking)
 					ESX.Game.SpawnVehicle(vehicleProps.model, spawnCoords, garage.ExteriorSpawnPoint.Heading, function(vehicle)
 						TaskWarpPedIntoVehicle(playerPed,  vehicle,  -1)
 						ESX.Game.SetVehicleProperties(vehicle, vehicleProps)
+						SetEntityAsMissionEntity(vehicle, true, true)
 					end)
 
 				end)
