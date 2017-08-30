@@ -67,7 +67,7 @@ end)
 RegisterNetEvent('esx_holdup:robberycomplete')
 AddEventHandler('esx_holdup:robberycomplete', function(robb)
 	holdingup = false
-	ESX.ShowNotification(_U('robbery_cancelled') .. Stores[store].reward)
+	ESX.ShowNotification(_U('robbery_complete') .. Stores[store].reward)
 	store = ""
 	secondsRemaining = 0
 	incircle = false
