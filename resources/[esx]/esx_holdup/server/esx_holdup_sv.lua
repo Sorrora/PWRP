@@ -16,8 +16,8 @@ AddEventHandler('esx_holdup:toofar', function(robb)
 	for i=1, #xPlayers, 1 do
  		local xPlayer = ESX.GetPlayerFromId(xPlayers[i])
  		if xPlayer.job.name == 'police' then
-			TriggerClientEvent('esx:showNotification', xPlayer, _U('robbery_cancelled_at') .. Stores[robb].nameofstore)
-			TriggerClientEvent('esx_holdup:killblip', xPlayer)
+			TriggerClientEvent('esx:showNotification', xPlayers[i], _U('robbery_cancelled_at') .. Stores[robb].nameofstore)
+			TriggerClientEvent('esx_holdup:killblip', xPlayers[i])
 		end
 	end
 	if(robbers[source])then
@@ -62,8 +62,8 @@ AddEventHandler('esx_holdup:rob', function(robb)
 				for i=1, #xPlayers, 1 do
 					local xPlayer = ESX.GetPlayerFromId(xPlayers[i])
 					if xPlayer.job.name == 'police' then
-							TriggerClientEvent('esx:showNotification', xPlayer, _U('rob_in_prog') .. store.nameofstore)
-							TriggerClientEvent('esx_holdup:setblip', xPlayer, Stores[robb].position)
+							TriggerClientEvent('esx:showNotification', xPlayers[i], _U('rob_in_prog') .. store.nameofstore)
+							TriggerClientEvent('esx_holdup:setblip', xPlayers[i], Stores[robb].position)
 					end
 				end
 
@@ -87,8 +87,8 @@ AddEventHandler('esx_holdup:rob', function(robb)
 							for i=1, #xPlayers, 1 do
 								local xPlayer = ESX.GetPlayerFromId(xPlayers[i])
 								if xPlayer.job.name == 'police' then
-										TriggerClientEvent('esx:showNotification', xPlayer, _U('robbery_complete_at') .. store.nameofstore)
-										TriggerClientEvent('esx_holdup:killblip', xPlayer)
+										TriggerClientEvent('esx:showNotification', xPlayers[i], _U('robbery_complete_at') .. store.nameofstore)
+										TriggerClientEvent('esx_holdup:killblip', xPlayers[i])
 								end
 							end
 						end
