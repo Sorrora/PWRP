@@ -21,7 +21,7 @@ Config.PoliceStations = {
 			{name = 'WEAPON_NIGHTSTICK',       price = 200},
 			{name = 'WEAPON_COMBATPISTOL',     price = 300},
 			{name = 'WEAPON_ASSAULTSMG',       price = 1250},
-			{name = 'WEAPON_ASSAULTRIFLE',     price = 1500},
+			{name = 'WEAPON_CARBINERIFLE',     price = 1500},
 			{name = 'WEAPON_PUMPSHOTGUN',      price = 600},
 			{name = 'WEAPON_STUNGUN',          price = 500},
 			{name = 'WEAPON_FLASHLIGHT',       price = 80},
@@ -37,6 +37,7 @@ Config.PoliceStations = {
 			{name = 'sheriff2', label = 'Sheriff SUV'},
 			{name = 'sheriff3', label = 'Sheriff Crown Victoria'},
 			{name = 'police', label = 'Unmarked Crown Victoria'},
+			{name = 'policeb', label = 'Motorcycle'},
 		},
 
 		Cloakrooms = {

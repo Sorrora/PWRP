@@ -30,6 +30,15 @@ Config.intercepts["/tweet"] = {
 	}
 }
 
+Config.intercepts["/twitter"] = {
+	prefix = "Twitter | $name",
+	color = {
+		red = 36,
+		green = 214,
+		blue = 249
+	}
+}
+
 Config.intercepts["/ooc"] = {
 	prefix = "OOC | $name",
 	color = {
@@ -64,5 +73,17 @@ Config.intercepts["/ad"] = {
 		red = 0,
 		green = 175,
 		blue = 0
+	}
+}
+
+Config.intercepts["/APB"] = {
+	prefix = "APB ($name) | ",
+	color = {
+		red = 0,
+		green = 0,
+		blue = 153
+	},
+	job_whitelist = {
+		"police",
 	}
 }

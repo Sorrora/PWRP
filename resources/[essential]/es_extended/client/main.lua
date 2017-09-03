@@ -12,16 +12,17 @@ local Keys = {
 
 local GUI           = {}
 GUI.Time            = 0
-local PlayerLoaded  = false
 local LoadoutLoaded = false
 local IsPaused      = false
+local PlayerSpawned = false
 local LastLoadout   = {}
 local Pickups       = {}
 
 RegisterNetEvent('esx:playerLoaded')
 AddEventHandler('esx:playerLoaded', function(xPlayer)
 
-	PlayerLoaded = true
+	ESX.PlayerLoaded  = true
+	ESX.PlayerData    = xPlayer
 
 	for i=1, #xPlayer.accounts, 1 do
 
@@ -59,28 +60,25 @@ AddEventHandler('playerSpawned', function()
 
 	Citizen.CreateThread(function()
 
-		while not PlayerLoaded do
+		while not ESX.PlayerLoaded do
 			Citizen.Wait(0)
 		end
 
-		ESX.TriggerServerCallback('esx:getPlayerData', function(data)
-			
-			local playerPed = GetPlayerPed(-1)
+		local playerPed = GetPlayerPed(-1)
 
-			-- Restore position
-			if data.lastPosition ~= nil then
-				SetEntityCoords(playerPed,  data.lastPosition.x,  data.lastPosition.y,  data.lastPosition.z)
-			end
+		-- Restore position
+		if ESX.PlayerData.lastPosition ~= nil then
+			SetEntityCoords(playerPed,  ESX.PlayerData.lastPosition.x,  ESX.PlayerData.lastPosition.y,  ESX.PlayerData.lastPosition.z)
+		end
 
-			-- Restore loadout
-			for i=1, #data.loadout, 1 do
-				local weaponHash = GetHashKey(data.loadout[i].name)
-				GiveWeaponToPed(playerPed, weaponHash, data.loadout[i].ammo, false, false)
-			end
+		-- Restore loadout
+		for i=1, #ESX.PlayerData.loadout, 1 do
+			local weaponHash = GetHashKey(ESX.PlayerData.loadout[i].name)
+			GiveWeaponToPed(playerPed, weaponHash, ESX.PlayerData.loadout[i].ammo, false, false)
+		end
 
-			LoadoutLoaded = true
-
-		end)
+		LoadoutLoaded = true
+		PlayerSpawned = true
 
 	end)
 
@@ -92,36 +90,51 @@ end)
 
 AddEventHandler('skinchanger:modelLoaded', function()
 	
-	while not PlayerLoaded do
+	while not ESX.PlayerLoaded do
 		Citizen.Wait(0)
 	end
 	
 	-- Restore loadout
-	ESX.TriggerServerCallback('esx:getPlayerData', function(data)
 
-		local playerPed = GetPlayerPed(-1)
+	local playerPed = GetPlayerPed(-1)
 
-		for i=1, #data.loadout, 1 do
-			local weaponHash = GetHashKey(data.loadout[i].name)
-			GiveWeaponToPed(playerPed, weaponHash, data.loadout[i].ammo, false, false)
-		end
+	for i=1, #ESX.PlayerData.loadout, 1 do
+		local weaponHash = GetHashKey(ESX.PlayerData.loadout[i].name)
+		GiveWeaponToPed(playerPed, weaponHash, ESX.PlayerData.loadout[i].ammo, false, false)
+	end
 
-		LoadoutLoaded = true
-
-	end)
+	LoadoutLoaded = true
 
 end)
 
 RegisterNetEvent('esx:setAccountMoney')
 AddEventHandler('esx:setAccountMoney', function(account)
+
+	for i=1, #ESX.PlayerData.accounts, 1 do
+		if ESX.PlayerData.accounts[i].name == account.name then
+			ESX.PlayerData.accounts[i] = account
+		end
+	end
+
 	ESX.UI.HUD.UpdateElement('account_' .. account.name, {
 		money = account.money
 	})
 end)
 
+RegisterNetEvent('es:activateMoney')
+AddEventHandler('es:activateMoney', function(money)
+	ESX.PlayerData.money = money
+end)
+
 RegisterNetEvent('esx:addInventoryItem')
 AddEventHandler('esx:addInventoryItem', function(item, count)
 	
+	for i=1, #ESX.PlayerData.inventory, 1 do
+		if ESX.PlayerData.inventory[i].name == item.name then
+			ESX.PlayerData.inventory[i] = item
+		end
+	end
+
 	ESX.UI.ShowInventoryItemNotification(true, item, count)
 
 	if ESX.UI.Menu.IsOpen('default', 'es_extended', 'inventory') then
@@ -133,12 +146,23 @@ end)
 RegisterNetEvent('esx:removeInventoryItem')
 AddEventHandler('esx:removeInventoryItem', function(item, count)
 
+	for i=1, #ESX.PlayerData.inventory, 1 do
+		if ESX.PlayerData.inventory[i].name == item.name then
+			ESX.PlayerData.inventory[i] = item
+		end
+	end
+
 	ESX.UI.ShowInventoryItemNotification(false, item, count)
 
 	if ESX.UI.Menu.IsOpen('default', 'es_extended', 'inventory') then
 		ESX.ShowInventory()
 	end
 	
+end)
+
+RegisterNetEvent('esx:setJob')
+AddEventHandler('esx:setJob', function(job)
+	ESX.PlayerData.job = job
 end)
 
 RegisterNetEvent('esx:addWeapon')
@@ -330,15 +354,11 @@ AddEventHandler('esx:spawnPed', function(model)
 
 	Citizen.CreateThread(function()
 
-		print(model)
-
 		RequestModel(model)
 
 		while not HasModelLoaded(model)  do
 		  Citizen.Wait(0)
 		end
-
-		print('LOADED')
 
 		CreatePed(5,  model,  x,  y,  z,  0.0,  true,  false)
 
@@ -431,6 +451,7 @@ Citizen.CreateThread(function()
 		end
 
 		if loadoutChanged and LoadoutLoaded then
+			ESX.PlayerData.loadout = loadout
 			TriggerServerEvent('esx:updateLoadout', loadout)
 		end
 
@@ -524,4 +545,41 @@ Citizen.CreateThread(function()
 		end
 
 	end
+end)
+
+-- Last position
+Citizen.CreateThread(function()
+	
+	while true do
+
+		Citizen.Wait(1000)
+
+		if ESX ~= nil and ESX.PlayerLoaded and PlayerSpawned then
+
+			local playerPed = GetPlayerPed(-1)
+			local coords    = GetEntityCoords(playerPed)
+
+			if not IsEntityDead(playerPed) then
+				ESX.PlayerData.lastPosition = {x = coords.x, y = coords.y, z = coords.z}
+			end
+
+		end
+
+	end
+
+end)
+
+Citizen.CreateThread(function()
+
+	while true do
+
+		Citizen.Wait(0)
+
+		local playerPed = GetPlayerPed(-1)
+
+		if IsEntityDead(playerPed) and PlayerSpawned then
+			PlayerSpawned = false
+		end
+	end
+
 end)

@@ -115,7 +115,7 @@
 			}
 
 		} else {
-			contactHTML = '<div class="contact no-item online"><p class="no-item">No contacts</p></div>';
+			contactHTML = '<div class="contact no-item online"><p class="no-item">Keine Kontakte</p></div>';
 		}
 		
 		$('#phone #repertoire .repertoire-list').html(contactHTML);
@@ -222,7 +222,7 @@
 				messageHTML = html + messageHTML;
 			}
 		} else {
-			messageHTML = '<div class="message no-item"><p class="no-item">No messages</p></div>';
+			messageHTML = '<div class="message no-item"><p class="no-item">Keine Nachrichten</p></div>';
 		}
 		
 		$('#phone #messages .messages-list').html(messageHTML);
@@ -299,8 +299,8 @@
 		$('.phone-icon').unbind('click');
 
 		$('#phone .menu .home').html(
-			'<li class="phone-icon" id="phone-icon-rep">Contacts</li>' +
-			'<li class="phone-icon" id="phone-icon-msg">Messages</li>'
+			'<li class="phone-icon" id="phone-icon-rep">Kontakte</li>' +
+			'<li class="phone-icon" id="phone-icon-msg">Nachrichten</li>'
 		);
 
 		for(let i=0; i<specialContacts.length; i++){
