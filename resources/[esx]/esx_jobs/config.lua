@@ -25,9 +25,9 @@ Config.PublicZones = {
 		Color = {r = 204, g = 204, b = 0},
 		Marker= 1,
 		Blip  = false,
-		Name  = "Le Maclerait Libéré",
+		Name  = "San Andreas Times",
 		Type  = "teleport",
-		Hint  = "Appuyez sur ~INPUT_PICKUP~ pour entrer dans l'immeuble.",
+		Hint  = "Press ~INPUT_PICKUP~ to enter the building.",
 		Teleport = { x = -139.09838867188, y = -620.74865722656, z = 167.82052612305 }
 	},
 
@@ -37,9 +37,9 @@ Config.PublicZones = {
 		Color = {r = 204, g = 204, b = 0},
 		Marker= 1,
 		Blip  = false,
-		Name  = "Le Maclerait Libéré",
+		Name  = "San Andreas Times",
 		Type  = "teleport",
-		Hint  = "Appuyez sur ~INPUT_PICKUP~ pour aller à l'entrée de l'immeuble.",
+		Hint  = "Press ~INPUT_PICKUP~ to go to the entrance of the building.",
 		Teleport = { x = -113.07, y = -604.93, z = 35.28 },
 	},
 }
