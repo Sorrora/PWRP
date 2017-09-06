@@ -11,8 +11,8 @@ local options = {
     height = 0.04,
     scale = 0.4,
     font = 2,
-    menu_title = _U("animations_menu"), --Modifier le Nom du Menu Ici !
-    menu_subtitle = _U("categories"),
+    menu_title = "Menu Animations", --Modifier le Nom du Menu Ici !
+    menu_subtitle = "Categories",
     color_r = 24,
     color_g = 225,
     color_b = 178,
@@ -22,8 +22,8 @@ local options = {
 function PersonnalMenu()
     ped = GetPlayerPed(-1);
     ClearMenu()
-    Menu.addButton(_U("animations"), "animsMenu", nil)
-	Menu.addButton(_U("exit"), "quitter", nil)
+    Menu.addButton("Animations", "animsMenu", nil)
+	Menu.addButton("Quit", "quitter", nil)
 end
 ------------------------------------------------------------------------------------------------------------------------
 
@@ -59,65 +59,65 @@ end)
 
 -- Menu des animations
 function animsMenu()
-    options.menu_subtitle = _U("animations")
+    options.menu_subtitle = "Animations"
     ClearMenu()
-    Menu.addButton(_U("hands_up"), "animsAction", { lib = "ped", anim = "handsup" })
-    Menu.addButton(_U("greet"), "animsSalute", nil)
-    Menu.addButton(_U("humor"), "animsHumor", nil)
-    Menu.addButton(_U("sports"), "animsSportives",nil)
-    Menu.addButton(_U("festive"), "animsFestives",nil)
-    Menu.addButton(_U("other"), "animsOthers", nil)
-    Menu.addButton(_U("return"), "PersonnalMenu",nil)
+    Menu.addButton("Hands Up", "animsAction", { lib = "ped", anim = "handsup" })
+    Menu.addButton("Greetings", "animsSalute", nil)
+    Menu.addButton("Mood", "animsHumor", nil)
+    Menu.addButton("Sports", "animsSportives",nil)
+    Menu.addButton("Festives", "animsFestives",nil)
+    Menu.addButton("Other", "animsOthers", nil)
+    Menu.addButton("Return","PersonnalMenu",nil)
 end
 
 function animsSportives()
-    options.menu_subtitle = _U("sport_animations")
+    options.menu_subtitle = "Sports Animations"
     ClearMenu()
-    Menu.addButton(_U("yoga"), "animsActionScenario", { anim = "WORLD_HUMAN_YOGA" })
-    Menu.addButton(_U("jogging"), "animsActionScenario", { anim = "WORLD_HUMAN_JOG_STANDING" })
-    Menu.addButton(_U("push_ups"), "animsActionScenario", { anim = "WORLD_HUMAN_PUSH_UPS" })
-    Menu.addButton(_U("return"), "animsMenu",nil)
+    Menu.addButton("Yoga", "animsActionScenario", { anim = "WORLD_HUMAN_YOGA" })
+    Menu.addButton("Jogging", "animsActionScenario", { anim = "WORLD_HUMAN_JOG_STANDING" })
+    Menu.addButton("Push-Ups", "animsActionScenario", { anim = "WORLD_HUMAN_PUSH_UPS" })
+    Menu.addButton("Return","animsMenu",nil)
 end
 
 function animsFestives()
-    options.menu_subtitle = _U("festive_animations")
+    options.menu_subtitle = "Animations Festives"
     ClearMenu()
-    Menu.addButton(_U("drink_a_beer"), "animsActionScenario", { anim = "WORLD_HUMAN_DRINKING" })
-    Menu.addButton(_U("stand_near_fire"), "animsActionScenario", { anim = "WORLD_HUMAN_STAND_FIRE" })
-    Menu.addButton(_U("play_music"), "animsActionScenario", {anim = "WORLD_HUMAN_MUSICIAN" })
-    Menu.addButton(_U("return"), "animsMenu",nil)
+    Menu.addButton("Drink Beer", "animsActionScenario", { anim = "WORLD_HUMAN_DRINKING" })
+    Menu.addButton("Close to Fire", "animsActionScenario", { anim = "WORLD_HUMAN_STAND_FIRE" })
+    Menu.addButton("Play Music", "animsActionScenario", {anim = "WORLD_HUMAN_MUSICIAN" })
+    Menu.addButton("Return","animsMenu",nil)
 end
 
 function animsSalute()
-    options.menu_subtitle = _U("greeting_animations")
+    options.menu_subtitle = "Animations Greetings"
     ClearMenu()
-    Menu.addButton(_U("shake_hands"), "animsAction", { lib = "mp_common", anim = "givetake1_a" })
-    Menu.addButton(_U("wave_hello"), "animsAction", { lib = "gestures@m@standing@casual", anim = "gesture_hello" })
-    Menu.addButton(_U("high_five"), "animsAction", { lib = "mp_ped_interaction", anim = "highfive_guy_a" })
-    Menu.addButton(_U("military_salute"), "animsAction", { lib = "mp_player_int_uppersalute", anim = "mp_player_int_salute" })
-    Menu.addButton(_U("return"), "animsMenu",nil)
+    Menu.addButton("Shake Hands", "animsAction", { lib = "mp_common", anim = "givetake1_a" })
+    Menu.addButton("Wave", "animsAction", { lib = "gestures@m@standing@casual", anim = "gesture_hello" })
+    Menu.addButton("High-Five", "animsAction", { lib = "mp_ped_interaction", anim = "highfive_guy_a" })
+    Menu.addButton("Military Salute", "animsAction", { lib = "mp_player_int_uppersalute", anim = "mp_player_int_salute" })
+    Menu.addButton("Return","animsMenu",nil)
 end
 
 function animsHumor()
-    options.menu_subtitle = _U("humor_animations")
+    options.menu_subtitle = "Animations Mood"
     ClearMenu()
-    Menu.addButton(_U("cheer"), "animsActionScenario", {anim = "WORLD_HUMAN_CHEERING" })
-    Menu.addButton(_U("damn"), "animsAction", { lib = "gestures@m@standing@casual", anim = "gesture_damn" })
-    Menu.addButton(_U("no_way"), "animsAction", { lib = "gestures@m@standing@casual", anim = "gesture_no_way" })
-    Menu.addButton(_U("middle_finger"), "animsAction", { lib = "mp_player_int_upperfinger", anim = "mp_player_int_finger_01_enter" })
-    Menu.addButton(_U("embrace"), "animsAction", { lib = "mp_ped_interaction", anim = "kisses_guy_a" })
-    Menu.addButton(_U("return"), "animsMenu",nil)
+    Menu.addButton("Cheer", "animsActionScenario", {anim = "WORLD_HUMAN_CHEERING" })
+    Menu.addButton("Dammed ", "animsAction", { lib = "gestures@m@standing@casual", anim = "gesture_damn" })
+    Menu.addButton("No Way", "animsAction", { lib = "gestures@m@standing@casual", anim = "gesture_no_way" })
+    Menu.addButton("Middle Fingers", "animsAction", { lib = "mp_player_int_upperfinger", anim = "mp_player_int_finger_01_enter" })
+    Menu.addButton("Kiss", "animsAction", { lib = "mp_ped_interaction", anim = "kisses_guy_a" })
+    Menu.addButton("Return","animsMenu",nil)
 end
 
 function animsOthers()
-    options.menu_subtitle = _U("other_animations")
+    options.menu_subtitle = "Animations Other"
     ClearMenu()
-    Menu.addButton(_U("take_notes"), "animsActionScenario", { anim = "WORLD_HUMAN_CLIPBOARD" })
-    Menu.addButton(_U("sit"), "animsActionScenario", { anim = "WORLD_HUMAN_PICNIC" })
-    Menu.addButton(_U("smoke"), "animsActionScenario", { anim = "WORLD_HUMAN_SMOKING" })
-    Menu.addButton(_U("scratch_crotch"), "animsAction", { lib = "mp_player_int_uppergrab_crotch", anim = "mp_player_int_grab_crotch" })
-    Menu.addButton(_U("rock_and_roll"), "animsAction", { lib = "mp_player_int_upperrock", anim = "mp_player_int_rock" })
-    Menu.addButton(_U("return"), "animsMenu",nil)
+    Menu.addButton("Take Notes", "animsActionScenario", { anim = "WORLD_HUMAN_CLIPBOARD" })
+    Menu.addButton("Sit", "animsActionScenario", { anim = "WORLD_HUMAN_PICNIC" })
+    Menu.addButton("Smoke", "animsActionScenario", { anim = "WORLD_HUMAN_SMOKING" })
+    Menu.addButton("Scratch Balls", "animsAction", { lib = "mp_player_int_uppergrab_crotch", anim = "mp_player_int_grab_crotch" })
+    Menu.addButton("Rock and Roll", "animsAction", { lib = "mp_player_int_upperrock", anim = "mp_player_int_rock" })
+    Menu.addButton("Return","animsMenu",nil)
 
 end
 
