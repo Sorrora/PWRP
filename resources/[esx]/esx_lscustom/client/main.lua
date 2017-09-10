@@ -15,6 +15,7 @@ RegisterNetEvent('esx_lscustom:installMod')
 AddEventHandler('esx_lscustom:installMod', function()
 	local vehicle = GetVehiclePedIsIn(GetPlayerPed(-1), false)
 	myCar = ESX.Game.GetVehicleProperties(vehicle)
+	TriggerServerEvent('esx_lscustom:refreshOwnedVehicle', myCar)
 end)
 
 RegisterNetEvent('esx_lscustom:cancelInstallMod')
@@ -40,11 +41,21 @@ function OpenLSMenu(elems, menuname, menutitle, parent)
 			local found = false
 			for k,v in pairs(Config.Menus) do
 				if k == data.current.modType or isRimMod then
-					if data.current.label == _U('by_default') or string.match(data.current.label, _U('installed')) then
+					if data.current.label == " ".. _U('by_default') or string.match(data.current.label, _U('installed')) then
 						ESX.ShowNotification(_U('already_own') .. data.current.label)
 					else
 						if isRimMod then
 							TriggerServerEvent("esx_lscustom:buyMod", data.current.price)
+						elseif data.current.modType == 11 or data.current.modType == 12 or data.current.modType == 13 or data.current.modType == 15 or data.current.modType == 16 then
+							-- increase price of mods by the base price each additional level
+							local priceMult = nil
+							if type(data.current.modNum) == "number" then
+								priceMult = data.current.modNum + 1
+							else
+								priceMult = 1
+							end
+							local modPrice = v.price * priceMult
+							TriggerServerEvent("esx_lscustom:buyMod", modPrice)
 						else
 							TriggerServerEvent("esx_lscustom:buyMod", v.price)
 						end
@@ -110,8 +121,7 @@ function GetAction(data)
 	local vehicle = GetVehiclePedIsIn(playerPed, false)
 	local currentMods = ESX.Game.GetVehicleProperties(vehicle)
 
-	for k,v in pairs(Config
-		.Menus) do
+	for k,v in pairs(Config.Menus) do
 
 		if data.value == k then
 
@@ -123,6 +133,9 @@ function GetAction(data)
 
 				if v.modType == 22 then
 					table.insert(elements, {label = " " .. _U('by_default'), modType = k, modNum = false})
+				elseif v.modType == 'color1' or v.modType == 'color2' or v.modType == 'pearlescentColor' or v.modType == 'wheelColor' then
+					local num = myCar[v.modType]
+					table.insert(elements, {label = " " .. _U('by_default'), modType = k, modNum = num})
 				else
 					table.insert(elements, {label = " " .. _U('by_default'), modType = k, modNum = -1})
 				end
@@ -150,9 +163,9 @@ function GetAction(data)
 				elseif v.modType == 22 then -- XENON
 					local _label = ''
 					if currentMods.modXenon then
-						_label = 'Xénon - <span style="color:cornflowerblue;">'.. _U('installed') ..'</span>'
+						_label = 'Xenon - <span style="color:cornflowerblue;">'.. _U('installed') ..'</span>'
 					else
-						_label = 'Xénon - <span style="color:green;">$' .. v.price .. ' </span>'
+						_label = 'Xenon - <span style="color:green;">$' .. v.price .. ' </span>'
 					end
 					table.insert(elements, {label = _label, modType = k, modNum = true})
 				elseif v.modType == 'neonColor' or v.modType == 'tyreSmokeColor' then -- NEON & SMOKE COLOR
@@ -202,17 +215,26 @@ function GetAction(data)
 							table.insert(elements, {label = _label, modType = 'modFrontWheels', modNum = j, wheelType = v.wheelType, price = v.price})
 						end
 					end
-				elseif v.modType == 11 or v.modType == 12 or v.modType == 13 or v.modType == 15 or v.modType == 16 or v.modType == 18 then
+				elseif v.modType == 11 or v.modType == 12 or v.modType == 13 or v.modType == 15 or v.modType == 16 then
 					local modCount = GetNumVehicleMods(vehicle, v.modType) -- UPGRADES
 					for j = 0, modCount-1, 1 do
 						local _label = ''
+						local modPrice = v.price * (j+1)
 						if j == currentMods[k] then
-							_label = 'Niveau ' .. j .. ' - <span style="color:cornflowerblue;">'.. _U('installed') ..'</span>'
+							_label = _U('level') .. j .. ' - <span style="color:cornflowerblue;">'.. _U('installed') ..'</span>'
 						else
-							_label = 'Niveau ' .. j .. ' - <span style="color:green;">$' .. v.price .. ' </span>'
+							_label = _U('level') .. j .. ' - <span style="color:green;">$' .. modPrice .. ' </span>'
 						end
 						table.insert(elements, {label = _label, modType = k, modNum = j})
 					end
+				elseif v.modType == 18 then
+					local _label = ''
+					if currentMods.modTurbo then
+						_label = 'Turbo Tuning - <span style="color:cornflowerblue;">'.. _U('installed') ..'</span>'
+					else
+						_label = 'Turbo Tuning - <span style="color:green;">$' .. v.price .. ' </span>'
+					end
+					table.insert(elements, {label = _label, modType = k, modNum = true})
 				else
 					local modCount = GetNumVehicleMods(vehicle, v.modType) -- BODYPARTS
 					for j = 0, modCount, 1 do
@@ -265,7 +287,8 @@ Citizen.CreateThread(function()
 	for k,v in pairs(Config.Zones)do
 		local blip = AddBlipForCoord(v.Pos.x, v.Pos.y, v.Pos.z)
 		SetBlipSprite(blip, 72)
-		SetBlipScale(blip, 0.8)
+		SetBlipScale(blip, 0.9)
+		SetBlipColour(blip, 6)
 		SetBlipAsShortRange(blip, true)
 		BeginTextCommandSetBlipName("STRING")
 		AddTextComponentString(v.Name)
