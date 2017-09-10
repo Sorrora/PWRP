@@ -1,11 +1,14 @@
-Config                        = {}
-Config.DrawDistance           = 100.0
-Config.MarkerType             = 1
-Config.MarkerSize             = {x = 1.5, y = 1.5, z = 1.0}
-Config.MarkerColor            = {r = 50, g = 50, b = 204}
-Config.EnablePlayerManagement = false
-Config.EnableArmoryManagement = false
-Config.MaxInService           = 8
+Config                            = {}
+Config.DrawDistance               = 100.0
+Config.MarkerType                 = 1
+Config.MarkerSize                 = {x = 1.5, y = 1.5, z = 1.0}
+Config.MarkerColor                = {r = 50, g = 50, b = 204}
+Config.EnablePlayerManagement     = false
+Config.EnableArmoryManagement     = false
+Config.EnableGCIdentity           = false
+Config.EnableNonFreemodePeds      = false -- turn this on if you want custom peds
+Config.EnableSocietyOwnedVehicles = false
+Config.MaxInService               = 8
 Config.Locale       		      = 'en'
 
 Config.PoliceStations = {
@@ -38,7 +41,8 @@ Config.PoliceStations = {
 			{name = 'sheriff3', label = 'Sheriff Crown Victoria'},
 			{name = 'police', label = 'Unmarked Crown Victoria'},
 			{name = 'policeb', label = 'Motorcycle'},
-			{name = 'police3', label = 'Super Fucky Mustang'},
+			{name = 'police3', label = 'Mustang GT'},
+			{name = 'fbi2',		label = 'Unmarked SUV'},
 		},
 
 		Cloakrooms = {
@@ -104,7 +108,8 @@ Config.PoliceStations = {
 			{name = 'sheriff3', label = 'Sheriff Crown Victoria'},
 			{name = 'police', label = 'Unmarked Crown Victoria'},
 			{name = 'policeb', label = 'Motorcycle'},
-			{name = 'police3', label = 'Super Fucky Mustang'},
+			{name = 'police3', label = 'Mustang GT'},
+			{name = 'fbi2',		label = 'Unmarked SUV'},
 		},
 
 		Cloakrooms = {
@@ -124,7 +129,9 @@ Config.PoliceStations = {
 		},
 		Helicopters = {},
 
-		VehicleDeleters = {},
+		VehicleDeleters = {
+			{x = 1870.6472167969, y = 3691.5666503906, z = 31.913780212402}
+		},
 
 		BossActions = {}
 	},
@@ -157,7 +164,8 @@ Config.PoliceStations = {
 			{name = 'sheriff3', label = 'Sheriff Crown Victoria'},
 			{name = 'police', label = 'Unmarked Crown Victoria'},
 			{name = 'policeb', label = 'Motorcycle'},
-			{name = 'police3', label = 'Super Fucky Mustang'},
+			{name = 'police3', label = 'Mustang GT'},
+			{name = 'fbi2',		label = 'Unmarked SUV'},
 		},
 
 		Cloakrooms = {
@@ -178,7 +186,9 @@ Config.PoliceStations = {
 		
 		Helicopters = {},
 
-		VehicleDeleters = {},
+		VehicleDeleters = {
+			{x = -455.23275756836, y = 6041.041015625, z = 30.052349090576}
+		},
 
 		BossActions = {}
 	}

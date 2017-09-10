@@ -74,6 +74,7 @@ function StartRespawnToHospitalMenuTimer()
 
 						ESX.TriggerServerCallback('esx_ambulancejob:removeItemsAfterRPDeath', function()
 
+							ESX.SetPlayerData('lastPosition', Config.Zones.HospitalInteriorInside1.Pos)
 							TriggerServerEvent('esx:updateLastPosition', Config.Zones.HospitalInteriorInside1.Pos)
 
 							RespawnPed(GetPlayerPed(-1), Config.Zones.HospitalInteriorInside1.Pos)
@@ -112,6 +113,7 @@ function StartRespawnTimer()
 
 				ESX.TriggerServerCallback('esx_ambulancejob:removeItemsAfterRPDeath', function()
 
+					ESX.SetPlayerData('lastPosition', Config.Zones.HospitalInteriorInside1.Pos)
 					TriggerServerEvent('esx:updateLastPosition', Config.Zones.HospitalInteriorInside1.Pos)
 
 					RespawnPed(GetPlayerPed(-1), Config.Zones.HospitalInteriorInside1.Pos)
@@ -171,6 +173,7 @@ function RespawnTimer()
 						ESX.TriggerServerCallback('esx_ambulancejob:removeItemsAfterRPDeathRemoveMoney', function()
 
 							TriggerServerEvent('esx_ambulancejob:removeAccountMoney', source)
+							ESX.SetPlayerData('lastPosition', Config.Zones.HospitalInteriorInside1.Pos)
 							TriggerServerEvent('esx:updateLastPosition', Config.Zones.HospitalInteriorInside1.Pos)
 
 							RespawnPed(GetPlayerPed(-1), Config.Zones.HospitalInteriorInside1.Pos)
@@ -219,6 +222,7 @@ function RespawnTimer()
 
 					ESX.TriggerServerCallback('esx_ambulancejob:removeItemsAfterRPDeath', function()
 
+						ESX.SetPlayerData('lastPosition', Config.Zones.HospitalInteriorInside1.Pos)
 						TriggerServerEvent('esx:updateLastPosition', Config.Zones.HospitalInteriorInside1.Pos)
 
 						RespawnPed(GetPlayerPed(-1), Config.Zones.HospitalInteriorInside1.Pos)
@@ -288,8 +292,7 @@ function OpenAmbulanceActionsMenu()
 	}
 
 	if Config.EnablePlayerManagement and PlayerData.job.grade_name == 'boss' then
-		table.insert(elements, {label = _U('withdraw_society'), value = 'withdraw_society_money'})
-		table.insert(elements, {label = _U('deposit_society'), value = 'deposit_society_money'})
+  	table.insert(elements, {label = _U('boss_actions'), value = 'boss_actions'})
 	end
 
 	ESX.UI.Menu.CloseAll()
@@ -306,56 +309,10 @@ function OpenAmbulanceActionsMenu()
 				OpenCloakroomMenu()
 			end
 
-			if data.current.value == 'withdraw_society_money' then
-
-				ESX.UI.Menu.Open(
-					'dialog', GetCurrentResourceName(), 'withdraw_society_money_amount',
-					{
-						title = _U('money_withdraw')
-					},
-					function(data, menu)
-
-						local amount = tonumber(data.value)
-
-						if amount == nil then
-							ESX.ShowNotification(_U('invalid_amount'))
-						else
-							menu.close()
-							TriggerServerEvent('esx_society:withdrawMoney', 'ambulance', amount)
-						end
-
-					end,
-					function(data, menu)
-						menu.close()
-					end
-				)
-
-			end
-
-			if data.current.value == 'deposit_society_money' then
-
-				ESX.UI.Menu.Open(
-					'dialog', GetCurrentResourceName(), 'deposit_money_amount',
-					{
-						title = _U('deposit_amount')
-					},
-					function(data, menu)
-
-						local amount = tonumber(data.value)
-
-						if amount == nil then
-							ESX.ShowNotification(_U('invalid_amount'))
-						else
-							menu.close()
-							TriggerServerEvent('esx_society:depositMoney', 'ambulance', amount)
-						end
-
-					end,
-					function(data, menu)
-						menu.close()
-					end
-				)
-
+			if data.current.value == 'boss_actions' then
+				TriggerEvent('esx_society:openBossMenu', 'ambulance', function(data, menu)
+					menu.close()
+				end, {wash = false})
 			end
 
 		end,
@@ -515,46 +472,97 @@ end
 
 function OpenVehicleSpawnerMenu()
 
-	ESX.UI.Menu.Open(
-		'default', GetCurrentResourceName(), 'cloakroom',
-		{
-			title    = _U('veh_menu'),
-			align    = 'top-left',
-			elements = {
-				{label = _U('ambulance'),   value = 'ambulance'},
-				{label = _U('helicopter'), value = 'polmav'},
-			},
-		},
-		function(data, menu)
+	ESX.UI.Menu.CloseAll()
 
-			menu.close()
+	if Config.EnableSocietyOwnedVehicles then
 
-			local model = data.current.value
+		local elements = {}
 
-			ESX.Game.SpawnVehicle(model, Config.Zones.VehicleSpawnPoint.Pos, 270.0, function(vehicle)
+		ESX.TriggerServerCallback('esx_society:getVehiclesInGarage', function(vehicles)
 
-				local playerPed = GetPlayerPed(-1)
+			for i=1, #vehicles, 1 do
+				table.insert(elements, {label = GetDisplayNameFromVehicleModel(vehicles[i].model) .. ' [' .. vehicles[i].plate .. ']', value = vehicles[i]})
+			end
 
-				if model == 'polmav' then
-					SetVehicleModKit(vehicle, 0)
-					SetVehicleLivery(vehicle, 1)
+			ESX.UI.Menu.Open(
+				'default', GetCurrentResourceName(), 'vehicle_spawner',
+				{
+					title    = _U('veh_menu'),
+					align    = 'top-left',
+					elements = elements,
+				},
+				function(data, menu)
+
+					menu.close()
+
+					local vehicleProps = data.current.value
+
+					ESX.Game.SpawnVehicle(vehicleProps.model, Config.Zones.VehicleSpawnPoint.Pos, 270.0, function(vehicle)
+						ESX.Game.SetVehicleProperties(vehicle, vehicleProps)
+						local playerPed = GetPlayerPed(-1)
+						TaskWarpPedIntoVehicle(playerPed,  vehicle,  -1)
+					end)
+
+					TriggerServerEvent('esx_society:removeVehicleFromGarage', 'ambulance', vehicleProps)
+
+				end,
+				function(data, menu)
+
+					menu.close()
+
+					CurrentAction     = 'vehicle_spawner_menu'
+					CurrentActionMsg  = _U('veh_spawn')
+					CurrentActionData = {}
+
 				end
+			)
 
-				TaskWarpPedIntoVehicle(playerPed,  vehicle,  -1)
+		end, 'ambulance')
 
-			end)
+	else
 
-		end,
-		function(data, menu)
+		ESX.UI.Menu.Open(
+			'default', GetCurrentResourceName(), 'vehicle_spawner',
+			{
+				title    = _U('veh_menu'),
+				align    = 'top-left',
+				elements = {
+					{label = _U('ambulance'),  value = 'ambulance'},
+					{label = _U('helicopter'), value = 'polmav'},
+				},
+			},
+			function(data, menu)
 
-			menu.close()
+				menu.close()
 
-			CurrentAction     = 'vehicle_spawner_menu'
-			CurrentActionMsg  = _U('veh_spawn')
-			CurrentActionData = {}
+				local model = data.current.value
 
-		end
-	)
+				ESX.Game.SpawnVehicle(model, Config.Zones.VehicleSpawnPoint.Pos, 270.0, function(vehicle)
+
+					local playerPed = GetPlayerPed(-1)
+
+					if model == 'polmav' then
+						SetVehicleModKit(vehicle, 0)
+						SetVehicleLivery(vehicle, 1)
+					end
+
+					TaskWarpPedIntoVehicle(playerPed,  vehicle,  -1)
+
+				end)
+
+			end,
+			function(data, menu)
+
+				menu.close()
+
+				CurrentAction     = 'vehicle_spawner_menu'
+				CurrentActionMsg  = _U('veh_spawn')
+				CurrentActionData = {}
+
+			end
+		)
+
+	end
 
 end
 
@@ -660,6 +668,12 @@ AddEventHandler('esx_ambulancejob:revive', function()
 		while not IsScreenFadedOut() do
 			Citizen.Wait(0)
 		end
+
+		ESX.SetPlayerData('lastPosition', {
+			x = coords.x,
+			y = coords.y,
+			z = coords.z
+		})
 
 		TriggerServerEvent('esx:updateLastPosition', {
 			x = coords.x,
@@ -831,6 +845,12 @@ Citizen.CreateThread(function()
 				end
 
 				if CurrentAction == 'delete_vehicle' then
+
+					if Config.EnableSocietyOwnedVehicles then
+						local vehicleProps = ESX.Game.GetVehicleProperties(CurrentActionData.vehicle)
+						TriggerServerEvent('esx_society:putVehicleInGarage', 'ambulance', vehicleProps)
+					end
+
 					ESX.Game.DeleteVehicle(CurrentActionData.vehicle)
 				end
 

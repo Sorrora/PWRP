@@ -30,8 +30,8 @@
 				'<td>{{name}}</td>' +
 				'<td>${{bank_savings}}</td>' +
 				'<td>' +
-					'<button class="transfer-btn" data-identifier="{{identifier}}">Virement</button>' +
-					'<button class="withdraw-btn" data-identifier="{{identifier}}">Retrait</button>' +
+					'<button class="transfer-btn" data-identifier="{{identifier}}">Transfer</button>' +
+					'<button class="withdraw-btn" data-identifier="{{identifier}}">Withdrawal</button>' +
 				'</td>' +
 			'</tr>' +
 		'{{/customers}}' +
@@ -41,7 +41,7 @@
 	let menus = {
 
 		banque : {
-		  title     : 'Banque',
+		  title     : 'Bank',
 		 	visible   : false,
 		 	current   : -1,
 		 	hasControl: false,
@@ -49,13 +49,13 @@
 
 		  items: [
 		  	{label: 'Clients',                value: 'customers'},
-		  	{label: 'Retirer argent société', value: 'withdraw_society_money'},
-		  	{label: 'Blanchir de l\'argent',  value: 'wash_money'}
+		  	{label: 'Withdraw Company Money', value: 'withdraw_society_money'},
+		  	{label: 'Launder Money',  value: 'wash_money'}
 		  ]
 		},
 
 		banque_actions : {
-		  title     : 'Banque',
+		  title     : 'Bank',
 		 	visible   : false,
 		 	current   : 0,
 		 	hasControl: true,
