@@ -14,3 +14,12 @@ INSERT INTO `job_grades` (job_name, grade, name, label, salary, skin_male, skin_
 INSERT INTO `jobs` (name, label) VALUES 
   ('ambulance','Ambulance')
 ;
+
+-- Table to store the last hospital a player entered
+CREATE TABLE `current_hospital` (
+
+	`identifier` varchar(60) NOT NULL,
+	`hospital` varchar(60) NOT NULL,
+	
+	PRIMARY KEY (`identifier`)
+);

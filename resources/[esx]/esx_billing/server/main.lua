@@ -135,8 +135,7 @@ ESX.RegisterServerCallback('esx_billing:payBill', function(source, cb, id)
 
 				if foundPlayer ~= nil then
 
-					if xPlayer.get('money') >= amount then
-
+					if xPlayer.getMoney() >= amount then
 						MySQL.Async.execute(
 							'DELETE from billing WHERE id = @id',
 							{
@@ -154,12 +153,28 @@ ESX.RegisterServerCallback('esx_billing:payBill', function(source, cb, id)
 
 							end
 						)
+					elseif xPlayer.getBank() >= amount then
+						MySQL.Async.execute(
+							'DELETE from billing WHERE id = @id',
+							{
+								['@id'] = id
+							},
+							function(rowsChanged)
 
-					else
-						TriggerClientEvent('esx:showNotification', _source, _U('player_not_logged'))
-						cb()
+								xPlayer.removeBank(amount)
+								foundPlayer.addMoney(amount)
+
+								TriggerClientEvent('esx:showNotification', xPlayer.source, _U('paid_invoice') .. amount)
+								TriggerClientEvent('esx:showNotification', foundPlayer.source, _U('received_payment') .. amount)
+
+								cb()
+
+							end
+						)
 					end
-
+				else
+					TriggerClientEvent('esx:showNotification', source, _U('player_not_logged'))
+					cb()
 				end
 
 			else

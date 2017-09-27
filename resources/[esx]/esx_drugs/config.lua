@@ -1,9 +1,9 @@
 Config              = {}
 Config.MarkerType   = 1
 Config.DrawDistance = 100.0
-Config.ZoneSize     = {x = 5.0, y = 5.0, z = 3.0}
+Config.ZoneSize     = {x = 10.0, y = 10.0, z = 5.0}
 --Config.MarkerColor  = {r = 100, g = 204, b = 100}
-Config.RequiredCopsCoke = 2
+Config.RequiredCopsCoke = 1
 Config.RequiredCopsMeth = 2
 Config.RequiredCopsWeed = 0
 Config.RequiredCopsOpium = 3
@@ -20,6 +20,6 @@ Config.Zones = {
 	WeedTreatment =  {x=91.061386108398,  y=3750.0380859375,  z=39.77326965332},
 	WeedResell = 	 {x=-54.249694824219, y=-1443.3666992188, z=31.068626403809},
 	OpiumFarm = 	 {x=1972.784790039,	 y=3819.3999023438,  z=33.428722381592},
-	OpiumTreatment = {x=971.86499023438,y=-2157.61328125, z=28.475107192994},
-	OpiumResell = 	 {x=2331.0881347656,y=2570.2250976562,z=46.681819915772}
+	OpiumTreatment = {x=1088.4749755859,y=-2400.134765625, z=30.596197128296},
+	OpiumResell = 	 {x=2329.9350585938,y=2571.451171875,z=46.678833007813}
 }

@@ -46,7 +46,11 @@ function OpenLSMenu(elems, menuname, menutitle, parent)
 					else
 						if isRimMod then
 							TriggerServerEvent("esx_lscustom:buyMod", data.current.price)
-						elseif data.current.modType == 11 or data.current.modType == 12 or data.current.modType == 13 or data.current.modType == 15 or data.current.modType == 16 then
+						elseif data.current.modType == 'modEngine' or 
+							   data.current.modType == 'modBrakes' or 
+							   data.current.modType == 'modTransmission' or 
+							   data.current.modType == 'modSuspension' or 
+							   data.current.modType == 'modArmor' then
 							-- increase price of mods by the base price each additional level
 							local priceMult = nil
 							if type(data.current.modNum) == "number" then

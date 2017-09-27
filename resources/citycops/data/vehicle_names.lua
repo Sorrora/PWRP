@@ -16,3 +16,5 @@ Citizen.CreateThread(function()
 	AddTextEntry('0xC4B53C5B', 'Police7')
 	-- POLICE8
 	AddTextEntry('0xD0AF544F', 'Police8')
+	-- FBI2
+	AddTextEntry(GetHashKey('fbi2'),'fbi2')

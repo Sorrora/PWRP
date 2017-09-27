@@ -15,9 +15,9 @@ var backgrounds = [
 
 /* TEXTS DISPLAYED TOP RIGHT */
 texts = [
-	"Alpha-Test",
 	"",
-	"discord.gg/K2F2eHG"
+	"",
+	""
 ],
 
 /* TEXT DISPLAYED TOP LEFT */

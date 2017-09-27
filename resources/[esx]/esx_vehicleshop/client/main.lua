@@ -177,7 +177,7 @@ function OpenShopMenu()
 										y = Config.Zones.ShopOutside.Pos.y,
 										z = Config.Zones.ShopOutside.Pos.z
 									}, -20.0, function(vehicle)
-
+										
 										TaskWarpPedIntoVehicle(playerPed, vehicle, -1)
 
 										local vehicleProps = ESX.Game.GetVehicleProperties(vehicle)
@@ -268,7 +268,7 @@ function OpenShopMenu()
 		TaskWarpPedIntoVehicle(playerPed, vehicle, -1)
 		FreezeEntityPosition(vehicle, true)
 	end)
-
+	
 end
 
 function OpenResellerMenu()

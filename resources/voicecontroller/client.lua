@@ -9,7 +9,7 @@ local Keys = {
 	["LEFT"] = 174, ["RIGHT"] = 175, ["TOP"] = 27, ["DOWN"] = 173,
 	["NENTER"] = 201, ["N4"] = 108, ["N5"] = 60, ["N6"] = 107, ["N+"] = 96, ["N-"] = 97, ["N7"] = 117, ["N8"] = 61, ["N9"] = 118
 }
-local defaultkey = Keys["H"]
+local defaultkey = Keys["K"]
 local defaultdistance = 5.001 -- Default distance to voice
 local highdistance = 12.001 -- Hight distance to voice
 local lowdistance = 1.001 -- Low distance to voice
